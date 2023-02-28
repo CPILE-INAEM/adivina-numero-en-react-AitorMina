@@ -11,29 +11,51 @@ function App() {
   const [secretNumber, setSecretNumber] = useState(randomNumber());
   const inputRef = useRef(null);
 
+  const handleReset = () => {
+    setScore(20);
+    setNumber("");
+    setSecretNumber(randomNumber());
+    inputRef.current.value = "";
+  };
+
   const handleCheck = () => {
     setNumber(Number(inputRef.current.value));
   };
 
   useEffect(() => {
-    if (typeof number !== "") {
+    if (number !== "") {
       console.log(`El numero secreto es${secretNumber}`);
       console.log(`El numero elegido es${number}`);
       if (number === secretNumber) {
+        if (score > highscore) {
+          setHighscore(score);
+        }
       } else if (score === 1) {
         setScore(score - 1);
       } else {
         setScore(score - 1);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [number]);
 
+  let estado;
+  if (secretNumber === number) {
+    estado = "win";
+  } else if (score === 0) {
+    estado = "lose";
+  } else {
+    estado = "playing";
+  }
+
   return (
-    <div>
+    <div className={estado}>
       <header>
         <h1>Guess My Number!</h1>
         <p className="between">(Between 1 and 20)</p>
-        <button className="btn again">Again!</button>
+        <button className="btn again" onClick={handleReset}>
+          Again!
+        </button>
         <div className="number">{number === secretNumber ? number : "?"}</div>
       </header>
       <main>
@@ -44,7 +66,11 @@ function App() {
           </button>
         </section>
         <section className="right">
-          <MostrarMensaje number={number} secretNumber={secretNumber} />
+          <MostrarMensaje
+            number={number}
+            secretNumber={secretNumber}
+            score={score}
+          />
           <p className="message"></p>
           <p className="label-score">
             💯 Score: <span className="score">{score}</span>
