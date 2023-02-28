@@ -1,6 +1,5 @@
 import "./MostrarMensaje.css";
 export default function MostrarMensaje({ number, secretNumber, score }) {
-  console.log();
   if (secretNumber === number) {
     return <p className="message">Has acertado</p>;
   } else if (score === 0) {

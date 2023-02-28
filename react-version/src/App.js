@@ -24,8 +24,6 @@ function App() {
 
   useEffect(() => {
     if (number !== "") {
-      console.log(`El numero secreto es${secretNumber}`);
-      console.log(`El numero elegido es${number}`);
       if (number === secretNumber) {
         if (score > highscore) {
           setHighscore(score);
